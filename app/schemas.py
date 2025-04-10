@@ -1,14 +1,26 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import List, Optional
+
+
+class TodoListCreate(BaseModel):
+    name: str
+
+class TodoList(TodoListCreate):
+    id: int
+    items: List[str] = []
+
+    class Config:
+        orm_mode = True
+
 
 class ItemCreate(BaseModel):
     name: str
-    description: Optional[str] = None
+    text: str
 
-class ItemRead(BaseModel):
+class Item(ItemCreate):
     id: int
-    name: str
-    description: Optional[str]
+    is_done: bool
+    todolist_id: int
 
     class Config:
         orm_mode = True
